@@ -1,0 +1,11 @@
+sort1 uses: bubble sort
+
+How do you know?: spend more time sorting random and reversed lists. to sorted lists is one of the fastest. Big O of n^2 and big Omega of n.
+
+sort2 uses: merge sort
+
+How do you know?: spend less time sorting random and reversed lists. to sorted lists is one of the fastest. Big O of n*logn and big Omega of n*logn.
+
+sort3 uses: selection sort
+
+How do you know?: is in the middle of time spent with sorting random and reversed lists. To sorted lists is the slowest. Big O of n^2 and big Omega of n^2.
