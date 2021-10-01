@@ -28,3 +28,5 @@ Week 10 Ethics
 7	SQL
 8	HTML, CSS, JavaScript
 9	Python, SQL, HTML, CSS, JavaScript
+
+teste
