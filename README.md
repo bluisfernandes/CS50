@@ -1,8 +1,7 @@
 # CS50
 psets and lab of CS50 2021.
 
-Lessons
--------
+## Lessons
 Week 0 Scratch
 Week 1 C
 Week 2 Arrays
@@ -16,8 +15,7 @@ Week 9 Flask
 Week 10 Ethics
 
 
-##Problem Set Languages
-
+## Problem Set Languages
 0	Scratch
 1	C
 2	C
@@ -29,4 +27,9 @@ Week 10 Ethics
 8	HTML, CSS, JavaScript
 9	Python, SQL, HTML, CSS, JavaScript
 
+
 teste
+
+
+## Problem Set
+
