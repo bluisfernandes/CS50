@@ -1,2 +1,4 @@
 # CS50
-psets and plabs of CS50 2021
+psets and labs of CS50 2021
+
+
