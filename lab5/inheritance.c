@@ -13,8 +13,8 @@ typedef struct person
 }
 person;
 
-const int GENERATIONS = 3;
-const int INDENT_LENGTH = 4;
+const int GENERATIONS = 3; //3
+const int INDENT_LENGTH = 4; //4
 
 person *create_family(int generations);
 void print_family(person *p, int generation);
@@ -40,25 +40,55 @@ int main(void)
 person *create_family(int generations)
 {
     // TODO: Allocate memory for new person
+    person *pp = malloc(sizeof(person));
 
     // Generation with parent data
     if (generations > 1)
     {
         // TODO: Recursively create blood type histories for parents
-
+        printf("1");
+        pp->parents[0] = create_family(generations - 1);
+        printf("2");
+        pp->parents[1] = create_family(generations - 1);
+        printf("3");
+        
         // TODO: Randomly assign child alleles based on parents
+        //pp->alleles[0]= pp -> parents[0] -> alleles[0]; //rand()%2
+        char allel;
+        allel = pp -> parents[0] -> alleles[rand()%2];
+        pp->alleles[0] = allel;
+        
+        allel = pp -> parents[1] -> alleles[rand()%2];
+        pp->alleles[1] = allel;
+        
+        
+        printf("_");
+        //pp->alleles[0]= random_allele();
+        printf("4");
+        //pp->alleles[1]= random_allele();
+        printf("5");
+        
     }
 
     // Generation without parent data
     else
     {
         // TODO: Set parent pointers to NULL
-
+        printf("a");
+        pp -> parents[0] = NULL;
+        pp -> parents[1] = NULL;
+        printf("b");
+        
         // TODO: Randomly assign alleles
+        printf("c");
+        pp -> alleles[0] = random_allele();
+        pp -> alleles[1] = random_allele();
+        printf("d\n");
+        //print_family(pp, 0);
     }
 
     // TODO: Return newly created person
-    return NULL;
+    return pp; 
 }
 
 // Free `p` and all ancestors of `p`.
