@@ -13,7 +13,7 @@ typedef struct person
 }
 person;
 
-const int GENERATIONS = 3;  //3
+const int GENERATIONS = 3;
 const int INDENT_LENGTH = 4;
 
 person *create_family(int generations);
@@ -52,10 +52,10 @@ person *create_family(int generations)
         // TODO: Randomly assign child alleles based on parents
         
         char allel;
-        allel = pp -> parents[0] -> alleles[rand()%2];
+        allel = pp -> parents[0] -> alleles[rand() % 2];
         pp->alleles[0] = allel;
         
-        allel = pp -> parents[1] -> alleles[rand()%2];
+        allel = pp -> parents[1] -> alleles[rand() % 2];
         pp->alleles[1] = allel;
         
     }
@@ -81,92 +81,17 @@ person *create_family(int generations)
 void free_family(person *p)
 {
     // TODO: Handle base case
-    printf("\n");
-   person *tmp = p;
-   
-    if(p->parents[0] == NULL || p->parents[1] == NULL)
-        {
-            printf("z\n");
-            free(p);
-            return;
-        }
-    
-    
-    if(p->parents[0] != NULL)
+    if (p == NULL)
     {
-        printf("x");
-        p = p->parents[0];
-        
-        free_family(p);
-        
-        if(p->parents[0] == NULL)
-        {
-            printf("f");
-            free(p);
-            return;
-        }
-        free(p);
-        
+        return;
     }
-    
-    if(tmp->parents[1] != NULL)
-    {
-        printf("X");
-        tmp = tmp->parents[1];
-        free_family(tmp);
-        
-        
-        if(tmp->parents[1] == NULL)
-        {
-            //printf("F");
-            free(tmp);
-            return;
-        }
-        free(tmp);
-        
-    }
-    
-    
-    
-    
-    
-    printf("\n");
-    
-    // TODO: Free parents
-    // while(p->parents[0] != NULL)
-    // {
-    //     //printf(">");
-    //     person tmp0 = *p -> parents[0];
-    //     //printf("<");
-    //     person tmp1 = *p -> parents[1];
-    //     //free(p);
-    //     printf("A");
-    //     //free_family(p);
-    //     p = &tmp0;
-    //     //free_family(p); 
-    //     p = &tmp1;
-    //     //free_family(p);
-        
-    //     if(p == NULL)
-    //     {
-    //         printf("S");
-    //     }
-        
-    //     if(p->parents[0] == NULL)
-    //     {
-    //         printf("D");
-    //         return;
-    //     }
-        
-        
-    // }
 
+    // TODO: Free parents
+    free_family(p->parents[0]);
+    free_family(p->parents[1]);
+    
     // TODO: Free child
-    //free(tmp);
-    
-    
-    
-    printf("0");
+    free(p);
 }
 
 // Print each family member and their alleles.
