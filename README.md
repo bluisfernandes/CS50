@@ -1,5 +1,5 @@
 # CS50
-psets and lab of CS50 2021.
+psets and lab of CS50 2021...
 
 ## Lessons
 Week 0 Scratch\
