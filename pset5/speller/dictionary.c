@@ -4,8 +4,14 @@
 //add
 #include <stdio.h>
 #include <ctype.h>
+#include <math.h>
+#include <string.h>
 
 #include "dictionary.h"
+
+// Number of buckets in hash table
+// 26 letters + "'"
+const unsigned int N = 27*27; //pow(27, 1); //max  6 letters = 27^6
 
 // Represents a node in a hash table
 typedef struct node
@@ -15,12 +21,12 @@ typedef struct node
 }
 node;
 
-// Number of buckets in hash table
-// 26 letters + "'"
-const unsigned int N = pow(27, 6); //max  6 letters = 27^6
 
 // Hash table
 node *table[N];
+
+//words in dictionary
+int count = 0;
 
 // Returns true if word is in dictionary, else false
 bool check(const char *word)
@@ -64,83 +70,53 @@ unsigned int hash(const char *word)
     return hash0;
 }
 
+
+
 // Loads dictionary into memory, returning true if successful, else false
 bool load(const char *dictionary)
 {
     // TODO
-    FILE *dict = fopen(dictionary, "r");
-    if (dict == NULL)
+    //table[];
+    
+    FILE *file = fopen(dictionary, "r");
+    if (!file)
     {
-        printf("Could not open %s.\n", dictionary);
-        unload();
+        printf("ops\n");
         return false;
     }
     
-    
-    
-    
-    
-    int index = 0, misspellings = 0, words = 0;
-    char word[LENGTH + 1];
-
-    // Spell-check each word in text
-    char c;
-    while (fread(&c, sizeof(char), 1, dict))
+    char dict_word[46];
+    while(fscanf(file, "%s", dict_word) != EOF && count < 9137)
     {
-        // Allow only alphabetical characters and apostrophes
-        if (isalpha(c) || (c == '\'' && index > 0))
-        {
-            // Append character to word
-            word[index] = c;
-            index++;
-
-            // Ignore alphabetical strings too long to be words
-            if (index > LENGTH)
-            {
-                // Consume remainder of alphabetical string
-                while (fread(&c, sizeof(char), 1, dict) && isalpha(c));
-
-                // Prepare for new word
-                index = 0;
-            }
-        }
-
-        // Ignore words with numbers (like MS Word can)
-        else if (isdigit(c))
-        {
-            // Consume remainder of alphanumeric string
-            while (fread(&c, sizeof(char), 1, dict) && isalnum(c));
-
-            // Prepare for new word
-            index = 0;
-        }
-
-        // We must have found a whole word
-        else if (index > 0)
-        {
-            // Terminate current word
-            word[index] = '\0';
-            printf("%s\n", word);
-
-            // Update counter
-            words++;
-            index = 0;
-        }
+        //count words in dictionary
+        count++;
+        
+        
+        printf("%s  \t%d\t", dict_word, count);
+        printf("h=%u\t", hash(dict_word));
+        printf("\n");
+        
+        
+        //save in hash table
+        
     }
-    
+    fclose(file);
     return true;
 }
+
+
+
 
 // Returns number of words in dictionary if loaded, else 0 if not yet loaded
 unsigned int size(void)
 {
     // TODO
-    return 0;
+    return count;
 }
 
 // Unloads dictionary from memory, returning true if successful, else false
 bool unload(void)
 {
     // TODO
-    return false;
+    return true;
 }
