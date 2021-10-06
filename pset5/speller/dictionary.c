@@ -17,7 +17,7 @@ node;
 
 // Number of buckets in hash table
 // 26 letters + "'"
-const unsigned int N = 27;
+const unsigned int N = pow(27, 6); //max  6 letters = 27^6
 
 // Hash table
 node *table[N];
@@ -34,8 +34,34 @@ bool check(const char *word)
 // Hashes word to a number
 unsigned int hash(const char *word)
 {
-    // TODO
-    return 0;
+
+    //number of available letter: (a-z) + (')
+    const int p = 27;
+    
+    //const unsigned int N = pow(27, 6); //max  6 letters = 27^6
+    
+    unsigned int hash0 = 0;
+    long double p_pow = 1;
+    
+    //for all letters in buckets or for all letters in word
+    for (long i = 0, j = N; j > 1 && i < strlen(word); j = j / p)
+    {
+        //if letter is an ('), go to last letter (after z): number 26.
+        if (word[i] == '\'')
+        {
+            hash0 = hash0 + p_pow * (word[i] - '\'' + 26);  
+        }
+        else
+        {
+            hash0 = hash0 + p_pow * (word[i] - 'a');  
+        }
+        
+        //increment power by p.
+        p_pow = p_pow * p;
+        
+        i++;
+    }
+    return hash0;
 }
 
 // Loads dictionary into memory, returning true if successful, else false
