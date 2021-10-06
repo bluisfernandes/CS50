@@ -2,13 +2,18 @@
 #include <string.h>
 #include <math.h>
 
-unsigned int hash1(const char *word);
+unsigned int hash(const char *word);
 
 
 int main(void)
 {
-    char *s = "''''''''''''";
-    hash(s);
+    char *list[]={"a","aaa","baa","z","abcdefghij"};
+    
+    //printf("%lu\n",strlen(list));
+    for (int i = 0; i < 5; i++)
+    {
+        printf("%s: \thash:%d\n",list[i], hash(list[i]));
+    }
 }
 
 unsigned int hash(const char *word)
@@ -16,7 +21,7 @@ unsigned int hash(const char *word)
     //number of available letter: (a-z) + (')
     const int p = 27;
     //number os buckets
-    const long N = pow(27, 6); //max  6 letters = 27^6
+    const unsigned int N = pow(27, 6); //max  6 letters = 27^6
     
     unsigned int hash0 = 0;
     long double p_pow = 1;
