@@ -6,12 +6,14 @@
 #include <ctype.h>
 #include <math.h>
 #include <string.h>
+#include <strings.h>
+#include <stdlib.h>
 
 #include "dictionary.h"
 
 // Number of buckets in hash table
 // 26 letters + "'"
-const unsigned int N = 27*27; //pow(27, 1); //max  6 letters = 27^6
+const unsigned int N = 27 * 27 * 27 * 27; //pow(27, 1); //max  6 letters = 27^6
 
 // Represents a node in a hash table
 typedef struct node
@@ -31,8 +33,16 @@ int count = 0;
 // Returns true if word is in dictionary, else false
 bool check(const char *word)
 {
-    // TODO
-    //to dooo
+
+    //run for all possible words searchin if are equal
+    for (node *tmp = table[hash(word)]; tmp != NULL; tmp = tmp -> next)
+    {
+        if (strcasecmp(tmp -> word, word) == 0)
+        {
+            return true;
+        }   
+    }
+   
     
     return false;
 }
@@ -59,7 +69,7 @@ unsigned int hash(const char *word)
         }
         else
         {
-            hash0 = hash0 + p_pow * (word[i] - 'a');  
+            hash0 = hash0 + p_pow * (tolower(word[i]) - 'a');  
         }
         
         //increment power by p.
@@ -75,48 +85,72 @@ unsigned int hash(const char *word)
 // Loads dictionary into memory, returning true if successful, else false
 bool load(const char *dictionary)
 {
-    // TODO
-    //table[];
-    
+    //loads dictionary file
     FILE *file = fopen(dictionary, "r");
     if (!file)
     {
-        printf("ops\n");
         return false;
     }
     
-    char dict_word[46];
-    while(fscanf(file, "%s", dict_word) != EOF && count < 9137)
+    //set to NULL all values in hash table
+    for (int i = 0; i < N; i++)
+    {
+        table[i] = NULL;
+        //table[i] -> next = NULL;
+    }
+    
+    char dict_word[LENGTH + 1];
+    while (fscanf(file, "%s", dict_word) != EOF && count < 150000) //9137
     {
         //count words in dictionary
         count++;
         
-        
-        printf("%s  \t%d\t", dict_word, count);
-        printf("h=%u\t", hash(dict_word));
-        printf("\n");
-        
-        
         //save in hash table
+        node *n = malloc(sizeof(node));
+        if (n == NULL)
+        {
+            return false;
+        }
+        
+        //set values to n
+        strcpy(n->word, dict_word);
+        n-> next = table[hash(dict_word)];
+        
+        //change pointer of hash table to n
+        table[hash(dict_word)] = n;
         
     }
+
     fclose(file);
     return true;
 }
 
 
 
-
 // Returns number of words in dictionary if loaded, else 0 if not yet loaded
 unsigned int size(void)
 {
-    // TODO
+    //return count, of load
     return count;
 }
 
 // Unloads dictionary from memory, returning true if successful, else false
 bool unload(void)
 {
-    // TODO
+    // for all buckets in hash tabble:
+    for (int i = 0; i < N; i++)
+    {
+        while (table[i] != NULL)
+        {
+            // We point to the next node first
+            node *tmp = table[i]->next;
+            // Then, we can free the first node
+            free(table[i]);
+            // Now we can set the list to point to the next node
+            table[i] = tmp;
+            // If list is null, when there are no nodes left, our while loop will stop
+        }
+        
+    }
     return true;
 }
