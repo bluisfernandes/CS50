@@ -2,50 +2,42 @@
 #include <string.h>
 #include <math.h>
 
-int main (void)
-{
-    const long N = pow(27,5);  //max 11letters = 27^11
-    //const long N = 27.0*27*27*27*27*27*27*27*27*27*27*27;
-    char *s = "aaaaazzzzzzzzzzzzzzzzzzzzzzzz";
-    
-    long double hash = 0;
-    const int p = 27;
-    long double p_pow = 1;
-    printf("%ld\n", N);
+unsigned int hash1(const char *word);
 
-    for (long i = 0, j = N; j > 1; j=j/p)
+
+int main(void)
+{
+    char *s = "''''''''''''";
+    hash(s);
+}
+
+unsigned int hash(const char *word)
+{
+    //number of available letter: (a-z) + (')
+    const int p = 27;
+    //number os buckets
+    const long N = pow(27, 6); //max  6 letters = 27^6
+    
+    unsigned int hash0 = 0;
+    long double p_pow = 1;
+    
+    //for all letters in buckets or for all letters in word
+    for (long i = 0, j = N; j > 1 && i < strlen(word); j = j / p)
     {
-        printf("%ld- ",i);
-        
-        if(s[i] == '\'')
+        //if letter is an ('), go to last letter (after z): number 26.
+        if (word[i] == '\'')
         {
-            printf("%c,%d\t\t",s[i],s[i]-'\'' + 26);
-            hash = hash + p_pow * (s[i] - '\'' + 26);  
+            hash0 = hash0 + p_pow * (word[i] - '\'' + 26);  
         }
         else
         {
-            printf("%c,%d\t\t",s[i],s[i]-'a');
-            hash = hash + p_pow * (s[i] - 'a');  
+            hash0 = hash0 + p_pow * (word[i] - 'a');  
         }
-        printf("hash = %Lf\t\t", hash);
-        printf("p_pow = %Lf\n", p_pow);
         
+        //increment power by p.
         p_pow = p_pow * p;
         
-    i++;   
+        i++;
     }
-    
-    
-    printf("hash =           %Lf\n", hash);
-    printf("(hash / N) =      %Lf\n", (hash / N)); 
-    printf("round(hash / N) = %Lf\n", roundl(hash / N));
-    printf("N*round(hashN) = %Lf\n", N * roundl(hash / (long double) N));
-    
-    //hash -= N * round(hash / N);
-    hash = (long long) hash % N;
-    
-    printf("hash =                           %Lf\n", hash);
-    printf("hash =                           %Lf\n", N-hash);
-    
-    
+    return hash0;
 }
