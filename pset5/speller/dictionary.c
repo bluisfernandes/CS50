@@ -13,7 +13,7 @@
 
 // Number of buckets in hash table
 // 26 letters + "'"
-const unsigned int N = 27 * 27 * 27 * 27 * 27; //pow(27, 1); //max  6 letters = 27^6
+const unsigned int N = 27 * 27 * 27 * 27;
 
 // Represents a node in a hash table
 typedef struct node
@@ -23,7 +23,6 @@ typedef struct node
 }
 node;
 
-git add
 // Hash table
 node *table[N];
 
@@ -33,7 +32,6 @@ int count = 0;
 // Returns true if word is in dictionary, else false
 bool check(const char *word)
 {
-
     //run for all possible words searching if they're equal
     for (node *tmp = table[hash(word)]; tmp != NULL; tmp = tmp -> next)
     {
@@ -42,9 +40,6 @@ bool check(const char *word)
             return true;
         }   
     }
-    
-    
-    
     return false;
 }
 
