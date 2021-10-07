@@ -41,7 +41,7 @@ bool check(const char *word)
         {
             return true;
         }   
-    }
+    }g
    
     
     return false;
