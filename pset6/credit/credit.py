@@ -8,12 +8,6 @@ def main():
     # checks the company
     check_company(number)
 
-    arroz = 1234;
-
-    print( arroz % 10)
-    print( arroz % 100)
-    print("----")
-
 
 def check_company(number):
     ''' AMEX numbers start with 34 or 37;
