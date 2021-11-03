@@ -42,18 +42,18 @@ for i in str_list:
 
 # print(f"person: {person}")
 
+# find person in database(people)
 person_bool = False
 for p in people:
-    
     for s in str_list:
         # print(f"{p['name']}|{s}|{p[s]} -> {person[s]}")
         if int(p[s]) != int(person[s]):
             # print(f"\tout: {p[s]} != {person[s]}")
-
             break
         if s == str_list[-1]:
             print(p["name"])
             person_bool = True
-
+            
+# print if there is no match
 if person_bool == False:
     print("No match")
