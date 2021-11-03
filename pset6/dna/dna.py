@@ -6,45 +6,20 @@ if len(sys.argv) != 3:
     print("Usage: dna.py database sequence")
     sys.exit(1)
 
-people = []
-person = {}
-head = []
-head_bool = True
-
+people=[]
 with open(sys.argv[1], "r") as file:
-    for line in file:
-        line = line[:-1]
-        
-        if head_bool:
-            for j in (line.split(",")):
-                    head.append(j)
-            head_bool = False
-            
-        for i in range(len(line.split(","))):
-            print(f"dict[{head[i]}] == {line.split(',')[i]}")
-            person[head[i]] = line.split(',')[i]
-            # print(f"{person[head[i]]} is: {line.split(',')[i]}")
-        print("XXX ")
-        people.append(person)
-        print(people)
-            
-        
-print("______")
-        
-for i in head:
-    print(i)
-        # person[]
-        # for sequence in len(line.split(","):
-        #     person[] = line.split(",")[sequence]
-        
+    reader = csv.DictReader(file)
+    for line in reader:
+        people.append(line)
+        # print(line)
 
-# with open(sys.argv[2], "r") as file:
-#     for line in file:
-#         print(line[:-1])
+print("______ sequence:")
 
-print("______")
-print(people)
-print("_x____")
+with open(sys.argv[2], "r") as file:
+    reader = csv.reader(file)
+    for line in reader:
+        print(line[0])
+
 
 for i in people:
     print(i["name"])
