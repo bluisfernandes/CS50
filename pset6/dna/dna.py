@@ -6,11 +6,22 @@ import sys
 # searchs STR in DNA and returns the number of time they appear
 def search(dna, STR):
     quant = 0
+    quant_long = 0
+    skip = 0
     positions = len(dna) - len(STR) + 1
     for i in range(positions):
+        # when found a STR, it skips nexts n nucliotides, n=len(STR)
+        if skip > 0:
+            skip -= 1
+            continue
+        
         if dna[i:i+len(STR)] == STR:
             quant += 1
-    return quant
+            quant_long = max(quant, quant_long)
+            skip = len(STR)-1
+        else:
+            quant = 0
+    return quant_long
 
 
 # User usage
