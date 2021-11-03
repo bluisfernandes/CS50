@@ -4,7 +4,7 @@ import sys
 
 if len(sys.argv) != 3:
     print("Usage: dna.py database sequence")
-    sys.exit(0)
+    sys.exit(1)
 
 people = []
 person = {}
