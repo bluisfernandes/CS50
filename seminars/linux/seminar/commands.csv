@@ -1,0 +1,129 @@
+cd /
+cd ..
+ls
+cd /home (or cd ./home, or cd home)
+ls
+cd ubuntu
+pwd
+ls
+
+
+
+touch foo
+ls
+mkdir seminar
+ls
+mv foo seminar
+ls
+ls seminar
+cd seminar
+ls
+mv foo welcome
+
+
+ls / > root_list
+ls
+cat
+cat > welcome
+hello
+(ctrl + d)
+cat welcome
+cat > welcome
+welcome to a taste of linux!
+(ctrl + d)
+cat welcome
+cat >> welcome
+thank you for joining!
+(ctrl + d)
+cat welcome
+cat < welcome
+cat < welcome > welcome1
+
+ls
+cat welcome1
+cp welcome welcome2
+cat welcome2
+rm welcome1
+ls
+rm -f welcome2
+rm --help (or rm -h)
+man rm
+(press q to quit)
+man -s 1 -k remove
+
+
+*Activity 0*
+
+
+wc
+foo bar
+baz
+qux
+(ctrl + d)
+
+wc -l
+foo bar
+baz
+qux
+(ctrl + d)
+
+cat welcome | wc -l
+
+wget https://cdn.cs50.net/2021/x/seminars/linux/shows.csv
+cat shows.csv
+less shows.csv
+j (or Enter) to go to next line
+k to go to previous line
+space bar to go to next page
+b to go to previous page
+g to go to the top of the file
+shift g to go to bottom of the file
+/the to search for the
+n to jump to next finding
+shift n to jump to previous finding
+-i to toggle case-sensitive search
+q to exit
+
+
+
+head shows.csv
+head -n 28 shows.csv
+tail shows.csv
+tail -n 28 shows.csv
+wc -l shows.csv
+
+
+
+cut -d, -f2 shows.csv
+cut -d, -f2,3 shows.csv
+
+
+
+sort shows.csv
+sort -n shows.csv
+less shows.csv
+sort -n shows.csv > shows_sorted.csv
+less shows_sorted.csv
+
+
+
+grep friends shows.csv
+grep -i friends shows.csv
+grep -i ‘game of thrones’ shows.csv
+grep -i of shows.csv
+grep -i ‘^28’ shows.csv
+grep -i sein shows.csv
+sed ‘s/Seinfled/Seinfeld/’ shows.csv
+grep -i sein shows.csv
+sed -i ‘s/Seinfled/Seinfeld/’ shows.csv
+grep -i sein shows.csv
+
+
+alias igrep=’grep -i’
+igrep sein shows.csv
+history
+
+
+find /usr -name ‘cs50*’
+
+*Activity 1*
