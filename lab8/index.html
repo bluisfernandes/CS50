@@ -11,38 +11,55 @@
             function reset()
             {
                 let btn = document.querySelectorAll('button[id^=answer]');
-                
+
                 btn.forEach(function(i) {i.style.backgroundColor='';});
+            }
+
+            function correct()
+            {
+                let status = document.querySelector('#status_1');
+                status.innerHTML = "Correct!"
+            }
+
+
+             function incorrect()
+            {
+                let status = document.querySelector('#status_1');
+                status.innerHTML = "Incorrect!"
             }
 
 
             function btn1_red()
             {
                 let btn = document.querySelector('#answer1');
-                reset()
+                reset();
                 btn.style.backgroundColor='red';
+                incorrect();
             }
 
 
             function btn2_red()
             {
                 let btn = document.querySelector('#answer2');
-                reset()
+                reset();
                 btn.style.backgroundColor='red';
+                incorrect();
             }
 
 
             function btn3_green(){
-                reset()
+                reset();
                 let btn = document.querySelector('#answer3');
                 btn.style.backgroundColor='green';
+                correct();
             }
 
 
             function btn4_red(){
-                reset()
+                reset();
                 let btn = document.querySelector('#answer4');
                 btn.style.backgroundColor='red';
+                incorrect();
             }
 
 
@@ -50,6 +67,7 @@
                 reset()
                 let btn = document.querySelector('#answer5');
                 btn.style.backgroundColor='red';
+                incorrect();
 
             }
 
@@ -75,6 +93,11 @@
 
                 <!-- TODO: Add multiple choice question here -->
                 <h3>How many states there are in Brazil?</h3>
+
+
+                <div id="status_1">
+                    &nbsp;     <!--Print a temporary space> <-->
+                </div>
                 <div id="xbtns">
                     <button id="answer1">15</button>
                     <button id="answer2">20</button>
@@ -86,14 +109,11 @@
 
                 <script>
 
-
-
                     document.querySelector('#answer1').addEventListener('click', btn1_red);
                     document.querySelector('#answer2').addEventListener('click', btn2_red);
                     document.querySelector('#answer3').addEventListener('click', btn3_green);
                     document.querySelector('#answer4').addEventListener('click', btn4_red);
                     document.querySelector('#answer5').addEventListener('click', btn5_red);
-
 
                 </script>
 
