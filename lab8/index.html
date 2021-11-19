@@ -11,20 +11,19 @@
             function reset()
             {
                 let btn = document.querySelectorAll('button[id^=answer]');
-
                 btn.forEach(function(i) {i.style.backgroundColor='';});
             }
 
-            function correct()
+            function correct(i)
             {
-                let status = document.querySelector('#status_1');
+                let status = document.querySelector('#status_'+i);
                 status.innerHTML = "Correct!"
             }
 
 
-             function incorrect()
+             function incorrect(i)
             {
-                let status = document.querySelector('#status_1');
+                let status = document.querySelector('#status_'+i);
                 status.innerHTML = "Incorrect!"
             }
 
@@ -34,7 +33,7 @@
                 let btn = document.querySelector('#answer1');
                 reset();
                 btn.style.backgroundColor='red';
-                incorrect();
+                incorrect(1);
             }
 
 
@@ -43,7 +42,7 @@
                 let btn = document.querySelector('#answer2');
                 reset();
                 btn.style.backgroundColor='red';
-                incorrect();
+                incorrect(1);
             }
 
 
@@ -51,7 +50,7 @@
                 reset();
                 let btn = document.querySelector('#answer3');
                 btn.style.backgroundColor='green';
-                correct();
+                correct(1);
             }
 
 
@@ -59,7 +58,7 @@
                 reset();
                 let btn = document.querySelector('#answer4');
                 btn.style.backgroundColor='red';
-                incorrect();
+                incorrect(1);
             }
 
 
@@ -67,11 +66,25 @@
                 reset()
                 let btn = document.querySelector('#answer5');
                 btn.style.backgroundColor='red';
-                incorrect();
-
+                incorrect(1);
             }
-
-
+            
+            
+            function check()
+            {
+                
+                let answer = document.querySelector('#text_answer').value
+                //alert("checkado! "+answer)
+                
+                if(answer.toLowerCase().trim() == "amazonas")
+                {
+                    correct(2)
+                }
+                else
+                {
+                    incorrect(2)
+                }
+            }
 
         </script>
 
@@ -84,8 +97,6 @@
         </div>
 
         <div class="container">
-
-
 
             <div class="section">
                 <h2>Part 1: Multiple Choice </h2>
@@ -108,7 +119,6 @@
 
 
                 <script>
-
                     document.querySelector('#answer1').addEventListener('click', btn1_red);
                     document.querySelector('#answer2').addEventListener('click', btn2_red);
                     document.querySelector('#answer3').addEventListener('click', btn3_green);
@@ -116,7 +126,6 @@
                     document.querySelector('#answer5').addEventListener('click', btn5_red);
 
                 </script>
-
             </div>
 
             <div class="section">
@@ -125,14 +134,12 @@
 
                 <!-- TODO: Add free response question here -->
                 <h3>Which is the biggest state in Brazil?</h3>
-                <form>
+                <div id="status_2">
+                    &nbsp;     <!--Print a temporary space> <-->
+                </div>
+
                     <input autocomplete="off" id="text_answer" placeholder="hint: Amazonas, Para, Mato Grasso, Minas Gerais, Bahia" type="text">
-                    <input type="submit", value="Check Answer">
-                    <!--Amazonas-->
-
-                </form>
-
-            </div>
+                    <button id='checkbtn' onclick='check()'>Check Answer</button>
 
         </div>
     </body>
