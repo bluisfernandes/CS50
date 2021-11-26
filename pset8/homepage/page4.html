@@ -1,1 +1,39 @@
 <!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title> RGB - Javascript</title>
+    </head>
+        <body>
+            <button id="red"> R</button>
+            <button id="green"> G</button>
+            <button id="blue"> B</button>
+
+        <script>
+            let body = document.querySelector('body');
+            document.querySelector("#red").addEventListener('click',function(){
+               body.style.backgroundColor = 'red'
+            });
+            document.querySelector("#green").addEventListener('click',function(){
+               body.style.backgroundColor = 'green'
+            });
+            document.querySelector("#blue").addEventListener('click',function(){
+               body.style.backgroundColor = 'blue'
+            });
+            // document.querySelector('body').addEventListener('click',function(){
+            //   body.style.backgroundColor = 'white'
+            // });
+            function keyPress (e) {
+                if(e.key === "Escape") {
+                body.style.backgroundColor = 'white'
+                 }
+            };
+            
+            $(document).keyup(function(e) {
+             if (e.key === "Escape") { // escape key maps to keycode `27`
+                body.style.backgroundColor = 'red'
+                }
+            });
+                
+        </script>
+    </body>
+</html>
