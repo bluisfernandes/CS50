@@ -119,15 +119,19 @@ def logout():
 def quote():
     """Get stock quote."""
     if request.method == "POST":
-        print("******* \n *******")
+        if not request.form.get("symbol"):
+            return apology("Symbol required", "ops")
+            
         stock=lookup(request.form.get("symbol"))
+        if not stock:
+            return apology("Wrong Symbol", "oops")
+            
         return render_template("quoted.html", name=stock["name"],
                                             symbol=stock["symbol"],
                                             price=usd(stock["price"])
                                             ) 
     else:
         return render_template("quote.html")
-
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -140,9 +144,9 @@ def register():
         # Ensure username and password were submitted
         if not request.form.get("username"):
             return apology("must provide username", 403)
-        if not request.form.get("password"):
+        elif not request.form.get("password"):
             return apology("must provide password", 403)
-        if request.form.get("password") != request.form.get("password_confirm"):
+        elif request.form.get("password") != request.form.get("password_confirm"):
             return apology("passwords dont match")
 
         # Check if username is in use
