@@ -47,10 +47,14 @@ if not os.environ.get("API_KEY"):
 # export API_KEY=pk_cc8821de4e8d4731ad5c8fdb105c0ee6
 
 @app.route("/")
-@login_required
+# @login_required
 def index():
     """Show portfolio of stocks"""
-    return apology("world", "hello")
+
+    if session.get("user_id") is None:
+        return render_template("index.html", code="ok vc venceu")
+    else:    
+        return render_template("index.html", code="ok vc venceu", session_status=session["user_id"])
 
 
 @app.route("/buy", methods=["GET", "POST"])
@@ -60,6 +64,21 @@ def buy():
     if request.method == "POST":
         # TODO
         # check the symbol, and if the user have cash to buy
+        symbol = request.form.get("symbol")
+        shares1 = request.form.get("shares")
+        
+        if not symbol:
+            return apology("ops", "choose a symbol")
+        
+        stock=lookup(symbol)
+        
+        if not stock:
+            return apology("oooops", "wrong symbol")
+        
+        print(f"######{str(session['user_id'])+'_'+ stock['symbol']}")
+        # db.execute("INSERT INTO wallet(user_id, symbol, shares, price, user_id_symbol) VALUES (session['user_id'], stock['symbol'], shares1, stock['price'], str(session['user_id'])+'_'+ stock['symbol']")
+        # print(f"******{}", session['user_id']+'_'+ stock['symbol'])
+        
         
         return redirect("/")
     else:
@@ -100,7 +119,7 @@ def login():
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
-
+        
         # Redirect user to home page
         return redirect("/")
 
