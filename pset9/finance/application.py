@@ -120,7 +120,24 @@ def quote():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
-    return apology("TODO")
+    # return apology("TODO")
+    
+    stock ="pbr"
+    
+    if request.method == "POST":
+
+        # Ensure username was submitted
+        if not request.form.get("username"):
+            return apology("must provide username", 403)
+        if not request.form.get("password"):
+            return apology("must provide password", 403)
+        
+        # stock = request.form.get("stock");
+    
+    
+    # print(acoes['name'])
+    # return render_template("register.html", nome=acoes['name'], preco=acoes['price'])
+    return render_template("register.html")
 
 
 @app.route("/sell", methods=["GET", "POST"])
