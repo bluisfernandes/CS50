@@ -57,7 +57,13 @@ def index():
 @login_required
 def buy():
     """Buy shares of stock"""
-    return apology("TODO")
+    if request.method == "POST":
+        # TODO
+        # check the symbol, and if the user have cash to buy
+        
+        return redirect("/")
+    else:
+        return render_template("buy.html")
 
 
 @app.route("/history")
