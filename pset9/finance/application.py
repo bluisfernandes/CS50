@@ -37,16 +37,20 @@ Session(app)
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///finance.db")
 
+
+
 # Make sure API key is set
 if not os.environ.get("API_KEY"):
     raise RuntimeError("API_KEY not set")
 
 
+# export API_KEY=pk_cc8821de4e8d4731ad5c8fdb105c0ee6
+
 @app.route("/")
 @login_required
 def index():
     """Show portfolio of stocks"""
-    return apology("TODO")
+    return apology("world", "hello")
 
 
 @app.route("/buy", methods=["GET", "POST"])
@@ -114,30 +118,47 @@ def logout():
 @login_required
 def quote():
     """Get stock quote."""
-    return apology("TODO")
+    if request.method == "POST":
+        print("******* \n *******")
+        stock=lookup(request.form.get("symbol"))
+        return render_template("quoted.html", name=stock["name"],
+                                            symbol=stock["symbol"],
+                                            price=usd(stock["price"])
+                                            ) 
+    else:
+        return render_template("quote.html")
+
 
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
     # return apology("TODO")
-    
-    stock ="pbr"
-    
+
     if request.method == "POST":
 
-        # Ensure username was submitted
+        # Ensure username and password were submitted
         if not request.form.get("username"):
             return apology("must provide username", 403)
         if not request.form.get("password"):
             return apology("must provide password", 403)
-        
-        # stock = request.form.get("stock");
-    
-    
-    # print(acoes['name'])
-    # return render_template("register.html", nome=acoes['name'], preco=acoes['price'])
-    return render_template("register.html")
+        if request.form.get("password") != request.form.get("password_confirm"):
+            return apology("passwords dont match")
+
+        # Check if username is in use
+        users = db.execute("SELECT username FROM users")
+
+        for user in users:
+            if request.form.get("username") == user["username"]:
+                return apology("Usarname already in use")
+
+        # Insert new user in database
+        db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", request.form.get("username"), generate_password_hash(request.form.get("password")))
+
+        return render_template("register.html", register_ok="")
+
+    else:
+        return render_template("register.html")
 
 
 @app.route("/sell", methods=["GET", "POST"])
