@@ -93,6 +93,20 @@ def buy():
         # check
         if not stock:
             return apology("oooops", "wrong symbol")
+            
+        
+        #check the cash available
+        current_cash = db.execute("SELECT cash FROM users WHERE id = ?", str(session['user_id']))
+        current_cash = int(current_cash[0]["cash"])
+        transaction_price = int(shares) * int(stock["price"])
+        
+        if current_cash < transaction_price:
+            print("CASH é menor")
+            return apology("oh oh", "you dont have enough money")
+        else:
+            print("CASH é MAIOR")
+            db.execute("UPDATE users SET cash = ? WHERE id = ?", current_cash - transaction_price, str(session['user_id']))
+        
 
         # check if the symbol is already in use for this user
         list_id_symbol = db.execute("SELECT user_id_symbol FROM wallet WHERE user_id = ?", str(session['user_id'])) #+'_'+ stock['symbol'])
@@ -104,8 +118,6 @@ def buy():
             if id_symbol["user_id_symbol"] == user_id_symbol:
                 new_symbol = False
                 break
-
-        
         
         if new_symbol:
             print("NEW SYMBOL")
