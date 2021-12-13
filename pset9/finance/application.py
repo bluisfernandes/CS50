@@ -62,11 +62,11 @@ def index():
         total=user[0]["cash"]
         for i in wallet:
             try:
-                # isnumeric(i["shares"]) and isnumeric(i["price"]):
-                total += int(i["shares"]) * int(i["price"])
+                
+                # total += int(i["shares"]) * int(i["price"])
+                total += int(i["shares"]) * 1
             except:
                 pass
-        
         return render_template("index.html", session_login=session, user=user[0], wallet=wallet, total=total)
 
 
@@ -82,6 +82,11 @@ def buy():
 
         if not symbol:
             return apology("ops", "choose a symbol")
+            
+        if not shares.isnumeric():
+            return apology("ops", "shares must be a number")
+        elif int(shares) < 1 :
+            return apology("ops", "shares must be at least 1")
 
         stock=lookup(symbol)
 
@@ -92,13 +97,29 @@ def buy():
         # check if the symbol is already in use for this user
         list_id_symbol = db.execute("SELECT user_id_symbol FROM wallet WHERE user_id = ?", str(session['user_id'])) #+'_'+ stock['symbol'])
 
+        user_id_symbol = str(session['user_id'])+'_'+ stock['symbol']
+    
+        new_symbol = True
         for id_symbol in list_id_symbol:
-            if id_symbol["user_id_symbol"] == str(session['user_id'])+'_'+ stock['symbol']:
-                return apology("opa!","already in use")
+            if id_symbol["user_id_symbol"] == user_id_symbol:
+                new_symbol = False
+                break
 
-        # Insert new item to wallet
-        db.execute("INSERT INTO wallet(user_id, symbol, shares, price, user_id_symbol) VALUES (?, ?, ?, ?, ?)", session['user_id'], stock['symbol'], shares, stock['price'], str(session['user_id'])+'_'+ stock['symbol'])
+        
+        
+        if new_symbol:
+            print("NEW SYMBOL")
+            # Insert new item to wallet
+            # TODO: remove price
+            db.execute("INSERT INTO wallet(user_id, symbol, shares, user_id_symbol) VALUES (?, ?, ?, ?)", session['user_id'], stock['symbol'], shares, user_id_symbol)
 
+        else:
+            print("SYMBOL IN USE")
+            # user_wallet = db.execute("SELECT * FROM wallet WHERE user_id_symbol = ?", user_id_symbol)
+            previous_shares = db.execute("SELECT shares FROM wallet WHERE user_id_symbol = ?", user_id_symbol )
+            shares = int(previous_shares[0]["shares"]) + int(shares)
+            
+            db.execute("UPDATE wallet SET shares = ? WHERE user_id_symbol = ? ", shares, user_id_symbol)
 
         return redirect("/")
     else:

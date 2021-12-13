@@ -19,7 +19,7 @@
                     <th >user_id</th>
                     <th>symbol</th>
                     <th>shares</th>
-                    <th>price</th>
+                    <!--<th>price</th>-->
                     <th>Total</th>
                 </tr>
             </thead>
@@ -31,21 +31,23 @@
                     <td>{{ i.user_id }}</td>
                     <td>{{ i.symbol }}</td>
                     <td>{{ i.shares }}</td>
-                    <td>{{ i.price }}</td>
+                    {#<td>{{ i.price }}</td>
                     <td >{{ "%.2f"|format(i.shares * i.price ) }}</td>
+                    #}
                 </tr>
     
             {% endfor %}
             
                 <tr>
-                    <td colspan="5">Cash</td>
+                    <td colspan="4">Cash</td>
                     <td >{{ "%.2f"|format(user.cash) }}</td>
                 </tr>
     
             <tfoot>
                 <tr>
-                    <th scope="row" colspan="5">Total</td>
-                    <th scope="row" class="table-active">{{ "%.2f"|format(total) }}</td>
+                    <th scope="row" colspan="4">Total</td>
+                    {#<th scope="row" class="table-active">{{ "%.2f"|format(total) }}</td>
+                    #}
                 </tr>
             </tfoot>
     
