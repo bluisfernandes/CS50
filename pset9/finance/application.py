@@ -62,9 +62,9 @@ def index():
         total=user[0]["cash"]
         for i in wallet:
             try:
-                
-                # total += int(i["shares"]) * int(i["price"])
-                total += int(i["shares"]) * 1
+                i["price"] = lookup(i["symbol"])["price"]
+                total += int(i["shares"]) * int(i["price"])
+                # total += int(i["shares"]) * 1
             except:
                 pass
         return render_template("index.html", session_login=session, user=user[0], wallet=wallet, total=total)
