@@ -55,10 +55,10 @@ def index():
     if session.get("user_id") is None:
         return render_template("index.html")
     else:
-        
+
         user = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
         wallet = db.execute("SELECT * FROM wallet WHERE user_id = ?", session["user_id"])
-        
+
         total=user[0]["cash"]
         for i in wallet:
             try:
@@ -82,7 +82,7 @@ def buy():
 
         if not symbol:
             return apology("ops", "choose a symbol")
-            
+
         if not shares.isnumeric():
             return apology("ops", "shares must be a number")
         elif int(shares) < 1 :
@@ -93,32 +93,32 @@ def buy():
         # check
         if not stock:
             return apology("oooops", "wrong symbol")
-            
-        
+
+
         #check the cash available
         current_cash = db.execute("SELECT cash FROM users WHERE id = ?", str(session['user_id']))
         current_cash = int(current_cash[0]["cash"])
         transaction_price = int(shares) * int(stock["price"])
-        
+
         if current_cash < transaction_price:
             print("CASH é menor")
             return apology("oh oh", "you dont have enough money")
         else:
             print("CASH é MAIOR")
             db.execute("UPDATE users SET cash = ? WHERE id = ?", current_cash - transaction_price, str(session['user_id']))
-        
+
 
         # check if the symbol is already in use for this user
         list_id_symbol = db.execute("SELECT user_id_symbol FROM wallet WHERE user_id = ?", str(session['user_id'])) #+'_'+ stock['symbol'])
 
         user_id_symbol = str(session['user_id'])+'_'+ stock['symbol']
-    
+
         new_symbol = True
         for id_symbol in list_id_symbol:
             if id_symbol["user_id_symbol"] == user_id_symbol:
                 new_symbol = False
                 break
-        
+
         if new_symbol:
             print("NEW SYMBOL")
             # Insert new item to wallet
@@ -130,7 +130,7 @@ def buy():
             # user_wallet = db.execute("SELECT * FROM wallet WHERE user_id_symbol = ?", user_id_symbol)
             previous_shares = db.execute("SELECT shares FROM wallet WHERE user_id_symbol = ?", user_id_symbol )
             shares = int(previous_shares[0]["shares"]) + int(shares)
-            
+
             db.execute("UPDATE wallet SET shares = ? WHERE user_id_symbol = ? ", shares, user_id_symbol)
 
         return redirect("/")
@@ -173,7 +173,7 @@ def login():
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
         session["name"] = rows[0]["username"]
-        
+
 
         # Redirect user to home page
         return redirect("/")
@@ -249,7 +249,63 @@ def register():
 @login_required
 def sell():
     """Sell shares of stock"""
-    return apology("TODO")
+
+    SYMBOL = db.execute("SELECT symbol FROM wallet WHERE user_id = ?", session['user_id'] )
+    print("*********")
+    print(SYMBOL)
+    
+    symbol_list = []
+    for row in SYMBOL:
+        symbol_list.append(row["symbol"])
+        
+    print("*********")
+    print(symbol_list)
+
+    if request.method == "POST":
+
+        symbol = request.form.get("symbol")
+        shares = request.form.get("shares")
+        user_id_symbol = str(session['user_id'])+'_'+ str(symbol)
+        
+        if symbol not in symbol_list:
+            return apology("ops", "choose a correct symbol")
+
+        if not shares.isnumeric():
+            return apology("ops", "shares must be a number")
+        elif int(shares) < 1 :
+            return apology("ops", "shares must be at least 1")
+
+        stock=lookup(symbol)
+
+        # check
+        if not stock:
+            return apology("oooopas", "wrong symbol")
+
+        current_shares = db.execute("SELECT shares FROM wallet WHERE user_id_symbol = ?", user_id_symbol)
+        current_shares = current_shares[0]["shares"]
+        
+        if current_shares < int(shares):
+            return apology("ops", "you have to sell less stocks")
+        elif current_shares > int(shares):
+            db.execute("UPDATE wallet SET shares = ? WHERE user_id_symbol = ?", current_shares - int(shares), user_id_symbol)
+        else:
+            db.execute("DELETE FROM wallet WHERE user_id_symbol = ?", user_id_symbol)
+            
+        #check the cash available
+        current_cash = db.execute("SELECT cash FROM users WHERE id = ?", str(session['user_id']))
+        current_cash = int(current_cash[0]["cash"])
+        transaction_price = int(shares) * int(stock["price"])
+        
+        db.execute("UPDATE users SET cash = ? WHERE id =?", current_cash + transaction_price, str(session['user_id']))
+
+        
+
+        return redirect("/")
+
+    else:
+
+
+        return render_template("sell.html", SYMBOL = SYMBOL)
 
 
 def errorhandler(e):
