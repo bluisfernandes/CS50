@@ -5,16 +5,54 @@
 {% endblock %}
 
 {% block main %}
-    table <br>
-    {{ code }}<br>
-    
-    {% if session_status is defined %}
 
-        session = {{ session_status }}<br>
-        id= {{ session }}<br>
-        
-        
+    {% if session_login is defined %}
+
+    <p>wellcome <b>{{ session.name }}</b></p>
+
+    <div class="table-responsive-sm"> 
+        <table class="table caption-top table-striped table-hover table-bordered table-sm">
+            <caption>wallet</caption>
+            <thead>
+                <tr>
+                    <th >id</th>
+                    <th >user_id</th>
+                    <th>symbol</th>
+                    <th>shares</th>
+                    <th>price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            {% for i in wallet %}
+                <tr>
+                    <td>{{ i.id }}</td>
+                    <td>{{ i.user_id }}</td>
+                    <td>{{ i.symbol }}</td>
+                    <td>{{ i.shares }}</td>
+                    <td>{{ i.price }}</td>
+                    <td >{{ "%.2f"|format(i.shares * i.price ) }}</td>
+                </tr>
     
+            {% endfor %}
+            
+                <tr>
+                    <td colspan="5">Cash</td>
+                    <td >{{ "%.2f"|format(user.cash) }}</td>
+                </tr>
+    
+            <tfoot>
+                <tr>
+                    <th scope="row" colspan="5">Total</td>
+                    <th scope="row" class="table-active">{{ "%.2f"|format(total) }}</td>
+                </tr>
+            </tfoot>
+    
+        </table>
+    </div>
+    {% else %}
+        <h5>Please <a href="/login">Login in</a></h5>
     {% endif %}
-    
+
 {% endblock %}

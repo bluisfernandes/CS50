@@ -50,11 +50,24 @@ if not os.environ.get("API_KEY"):
 # @login_required
 def index():
     """Show portfolio of stocks"""
+    # print(wallet[0])
 
     if session.get("user_id") is None:
-        return render_template("index.html", code="ok vc venceu")
-    else:    
-        return render_template("index.html", code="ok vc venceu", session_status=session["user_id"])
+        return render_template("index.html")
+    else:
+        
+        user = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
+        wallet = db.execute("SELECT * FROM wallet WHERE user_id = ?", session["user_id"])
+        
+        total=user[0]["cash"]
+        for i in wallet:
+            try:
+                # isnumeric(i["shares"]) and isnumeric(i["price"]):
+                total += int(i["shares"]) * int(i["price"])
+            except:
+                pass
+        
+        return render_template("index.html", session_login=session, user=user[0], wallet=wallet, total=total)
 
 
 @app.route("/buy", methods=["GET", "POST"])
@@ -65,21 +78,28 @@ def buy():
         # TODO
         # check the symbol, and if the user have cash to buy
         symbol = request.form.get("symbol")
-        shares1 = request.form.get("shares")
-        
+        shares = request.form.get("shares")
+
         if not symbol:
             return apology("ops", "choose a symbol")
-        
+
         stock=lookup(symbol)
-        
+
+        # check
         if not stock:
             return apology("oooops", "wrong symbol")
-        
-        print(f"######{str(session['user_id'])+'_'+ stock['symbol']}")
-        # db.execute("INSERT INTO wallet(user_id, symbol, shares, price, user_id_symbol) VALUES (session['user_id'], stock['symbol'], shares1, stock['price'], str(session['user_id'])+'_'+ stock['symbol']")
-        # print(f"******{}", session['user_id']+'_'+ stock['symbol'])
-        
-        
+
+        # check if the symbol is already in use for this user
+        list_id_symbol = db.execute("SELECT user_id_symbol FROM wallet WHERE user_id = ?", str(session['user_id'])) #+'_'+ stock['symbol'])
+
+        for id_symbol in list_id_symbol:
+            if id_symbol["user_id_symbol"] == str(session['user_id'])+'_'+ stock['symbol']:
+                return apology("opa!","already in use")
+
+        # Insert new item to wallet
+        db.execute("INSERT INTO wallet(user_id, symbol, shares, price, user_id_symbol) VALUES (?, ?, ?, ?, ?)", session['user_id'], stock['symbol'], shares, stock['price'], str(session['user_id'])+'_'+ stock['symbol'])
+
+
         return redirect("/")
     else:
         return render_template("buy.html")
@@ -119,7 +139,9 @@ def login():
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
+        session["name"] = rows[0]["username"]
         
+
         # Redirect user to home page
         return redirect("/")
 
@@ -146,15 +168,15 @@ def quote():
     if request.method == "POST":
         if not request.form.get("symbol"):
             return apology("Symbol required", "ops")
-            
+
         stock=lookup(request.form.get("symbol"))
         if not stock:
             return apology("Wrong Symbol", "oops")
-            
+
         return render_template("quoted.html", name=stock["name"],
                                             symbol=stock["symbol"],
                                             price=usd(stock["price"])
-                                            ) 
+                                            )
     else:
         return render_template("quote.html")
 
