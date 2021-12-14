@@ -9,7 +9,7 @@
     <form action="/sell" method= "post">
         <div class="form-group">
             
-            <select class="form-select form-group" name="symbol" aria-label="Default select example">
+            <select class="form-select form-group mx-auto w-auto" name="symbol" aria-label="Default select example">
                 <option disabled selected value="">Select a Symbol</option>
             {% for symbol in SYMBOL %}
                 <option value="{{ symbol.symbol }}">{{ symbol.symbol }}</option>
