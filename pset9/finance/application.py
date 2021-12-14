@@ -264,6 +264,28 @@ def register():
     else:
         return render_template("register.html")
 
+@app.route("/cash", methods=["POST"])
+@login_required
+def cash():
+    """Refresh cash value"""
+    
+    value=int(request.form.get("value"))
+    cash_previous = db.execute("SELECT cash FROM users WHERE id =?", session['user_id'] )
+    cash_previous = int(cash_previous[0]["cash"])
+    print(cash_previous)
+    print(value)
+    
+    if cash_previous + value < 0:
+        return apology ("too much money", "xii")
+    else:
+        db.execute("UPDATE users SET cash = ? WHERE id = ?", cash_previous + value, session['user_id'] )
+        dt = datetime.now()
+        db.execute("INSERT INTO history (user_id, symbol, shares, price, transacted) VALUES (?, ?, ?, ?, ?)", session['user_id'] , "wallet_cash", 1, value, dt)
+
+        
+    
+    return redirect("/")
+
 
 @app.route("/sell", methods=["GET", "POST"])
 @login_required

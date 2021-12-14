@@ -55,7 +55,12 @@
         </table>
     </div>
     
-    
+    <form action="/cash" method= "post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" placeholder="+/- cash" name="value" type="number">
+            <button class="btn btn-primary" type="submit">Apply</button>
+        </div>
+    </form>
     
     {% else %}
         <h5>Please <a href="/login">Login in</a></h5>
