@@ -11,16 +11,15 @@
     <p>wellcome <b>{{ session.name }}</b></p>
 
     <div class="table-responsive-sm">
-        <table class="table caption-top table-hover table-bordered table-sm">
+        <table class="table table-sm">
             <caption>history</caption>
             <thead>
                 <tr>
-                    <th >id</th>
-                    <th >user_id</th>
-                    <th>symbol</th>
-                    <th>shares</th>
-                    <th>price</th>
-                    <th>Total</th>
+                    <th class = "text-start">transacted</th>
+                    <th class = "text-start">symbol</th>
+                    <th class = "text-end">shares</th>
+                    <th class = "text-end">price</th>
+                    <th class = "text-end">Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,12 +27,11 @@
             {% for i in HISTORY %}
                 {% if i.shares < 0 %}
                 <tr>
-                    <td>{{ i.transacted }}</td>
-                    <td>{{ i.user_id }}</td>
-                    <td>{{ i.symbol }}</td>
-                    <td>{{ i.shares }}</td>
-                    <td>{{ i.price }}</td>
-                    <td>{{ "%.2f"|format(i.shares * i.price ) }}</td>
+                    <td class = "text-start">{{ i.transacted }}</td>
+                    <td class = "text-start">{{ i.symbol }}</td>
+                    <td class = "text-end">{{ i.shares }}</td>
+                    <td class = "text-end">{{ i.price | usd }}</td>
+                    <td class = "text-end">{{ (i.shares * i.price) | usd }}</td>
                     
                     {# class="table-success"
                     class="table-secondary"
@@ -43,21 +41,17 @@
                 
                 {% elif i.symbol == "wallet_cash" %}
                 <tr>
-                    <td class="table-success">{{ i.transacted }}</td>
-                    <td class="table-success">{{ i.user_id }}</td>
-                    <td class="table-success">{{ i.symbol }}</td>
-                    <td class="table-success">{{ i.shares }}</td>
-                    <td class="table-success">{{ i.price }}</td>
-                    <td class="table-success">{{ "%.2f"|format(i.shares * i.price ) }}</td>
+                    <td class="table-success text-start">{{ i.transacted }}</td>
+                    <td class="table-success text-start" colspan="3">CASH</td>
+                    <td class="table-success text-end">{{ (i.shares * i.price) | usd }}</td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td class="table-info">{{ i.transacted }}</td>
-                    <td class="table-info">{{ i.user_id }}</td>
-                    <td class="table-info">{{ i.symbol }}</td>
-                    <td class="table-info">{{ i.shares }}</td>
-                    <td class="table-info">{{ i.price }}</td>
-                    <td class="table-info">{{ "%.2f"|format(i.shares * i.price ) }}</td>
+                    <td class="table-secondary text-start">{{ i.transacted }}</td>
+                    <td class="table-secondary text-start">{{ i.symbol }}</td>
+                    <td class="table-secondary text-end">{{ i.shares }}</td>
+                    <td class="table-secondary text-end">{{ i.price | usd }}</td>
+                    <td class="table-secondary text-end">{{ (i.shares * i.price) | usd }}</td>
                 </tr>
                 {% endif %}
 
