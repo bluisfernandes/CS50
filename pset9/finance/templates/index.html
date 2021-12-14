@@ -11,50 +11,57 @@
     <p>wellcome <b>{{ session.name }}</b></p>
 
     <div class="table-responsive-sm"> 
-        <table class="table caption-top table-striped table-hover table-bordered table-sm">
+        <table class="table caption-top table-striped table-sm">
             <caption>wallet</caption>
             <thead>
                 <tr>
-                    <th >id</th>
-                    <th >user_id</th>
-                    <th>symbol</th>
+                    <th >symbol</th>
+                    <th>name</th>
                     <th>shares</th>
-                    <th>price</th>
-                    <th>Total</th>
+                    <th class="text-end">price</th>
+                    <th class="text-end">Total</th>
                 </tr>
             </thead>
             <tbody>
                 
             {% for i in wallet %}
                 <tr>
-                    <td>{{ i.id }}</td>
-                    <td>{{ i.user_id }}</td>
                     <td>{{ i.symbol }}</td>
+                    <td>{{ i.name }}</td>
                     <td>{{ i.shares }}</td>
-                    <td>{{ i.price }}</td>
-                    <td >{{ "%.2f"|format(i.shares * i.price ) }}</td>
+                    <td class="text-end">{{ i.price | usd }}</td>
+                    <td class="text-end" >{{ (i.shares * i.price ) | usd }}</td>
                     
                 </tr>
+            
     
             {% endfor %}
+            </tbody>
             
+            <tfoot class="table-borderless">
                 <tr>
-                    <td colspan="5">Cash</td>
-                    <td >{{ "%.2f"|format(user.cash) }}</td>
+                    <td class="text-end" colspan="4">Cash</td>
+                    <td class="text-end">{{ user.cash | usd }}</td>
                 </tr>
     
-            <tfoot>
+            
                 <tr>
-                    <th scope="row" colspan="5">Total</td>
-                    <th scope="row" class="table-active">{{ "%.2f"|format(total) }}</td>
+                    <th class="text-end" scope="row" colspan="4">Total</td>
+                    <th class="text-end" scope="row" class="table-active">{{ total | usd }}</td>
                     
                 </tr>
             </tfoot>
     
         </table>
     </div>
+    
+    
+    
     {% else %}
         <h5>Please <a href="/login">Login in</a></h5>
     {% endif %}
+    
+    
+    
 
 {% endblock %}

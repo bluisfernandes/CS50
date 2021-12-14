@@ -60,15 +60,21 @@ def index():
 
         user = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])
         wallet = db.execute("SELECT * FROM wallet WHERE user_id = ?", session["user_id"])
+        # names=[]
 
         total=user[0]["cash"]
         for i in wallet:
             try:
-                i["price"] = lookup(i["symbol"])["price"]
+                temp=lookup(i["symbol"])
+                i["price"] = temp["price"]
+                i["name"] = temp["name"]
                 total += int(i["shares"]) * int(i["price"])
-                # total += int(i["shares"]) * 1
+                
             except:
                 pass
+
+            # wallet.append(names)
+            
         return render_template("index.html", session_login=session, user=user[0], wallet=wallet, total=total)
 
 
