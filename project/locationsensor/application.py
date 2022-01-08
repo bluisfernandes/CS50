@@ -370,7 +370,6 @@ def test():
         try:
             text_json = json.loads(text)
 
-
         except:
             return render_template("tested.html", text = text)
 
@@ -381,8 +380,8 @@ def test():
             print("is numeric")
             return render_template("tested.html", text = text)
 
-        return render_template("tested.html")
-        #return render_template("tested.html", text = text, id = text_json, id2 = text_json["change"])
+        #return render_template("tested.html")
+        return render_template("tested.html", text = text, id = text_json, id2 = text_json["change"])
 
     else:
         return render_template("test.html")
