@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title> Map</title>
+        <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+
+    </head>
+    <body>
+        <div style="text-align: end">
+        <a href="/index.html">Index</a>
+        </div>
+        <h3>Simple map</h3>
+        <div id='map' style='width: auto; height: 300px;'></div>
+        <script>
+            mapboxgl.accessToken = 'pk.eyJ1IjoiYmx1aXNmZXJuYW5kZXMiLCJhIjoiY2t0MjRvdmY2MGhrajJubzJ3NHdtNGFhbiJ9.ETbidupITC5LM0SD_JH57A';
+            var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/bluisfernandes/ckwdm6fny0j2y14lbv02c2q2f'
+
+            });
+        </script>
+
+        <h3>Simple map</h3>
+        <div id='map1' style='width: 400px; height: 200px;'>
+        <script>
+            mapboxgl.accessToken = 'pk.eyJ1IjoiYmx1aXNmZXJuYW5kZXMiLCJhIjoiY2t0MjRvdmY2MGhrajJubzJ3NHdtNGFhbiJ9.ETbidupITC5LM0SD_JH57A';
+            var map = new mapboxgl.Map({
+            container: 'map1',
+            style: 'mapbox://styles/bluisfernandes/ckwdm6fny0j2y14lbv02c2q2f'
+
+            });
+        </script>
+        </div>
+
+    </body>
+</html>

@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+
+    {% if HISTORY is defined %}
+
+    <p>wellcome <b>{{ session.name }}</b></p>
+
+    <div class="table-responsive-sm">
+        <table class="table table-sm">
+            <caption>history</caption>
+            <thead>
+                <tr>
+                    <th class = "text-start">transacted</th>
+                    <th class = "text-start">symbol</th>
+                    <th class = "text-end">shares</th>
+                    <th class = "text-end">price</th>
+                    <th class = "text-end">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            {% for i in HISTORY %}
+                {% if i.shares < 0 %}
+                <tr>
+                    <td class = "text-start">{{ i.transacted }}</td>
+                    <td class = "text-start">{{ i.symbol }}</td>
+                    <td class = "text-end">{{ i.shares }}</td>
+                    <td class = "text-end">{{ i.price | usd }}</td>
+                    <td class = "text-end">{{ (i.shares * i.price) | usd }}</td>
+                    
+                    {# class="table-success"
+                    class="table-secondary"
+                    #}
+
+                </tr>
+                
+                {% elif i.symbol == "wallet_cash" %}
+                <tr>
+                    <td class="table-success text-start">{{ i.transacted }}</td>
+                    <td class="table-success text-start" colspan="3">CASH</td>
+                    <td class="table-success text-end">{{ (i.shares * i.price) | usd }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td class="table-secondary text-start">{{ i.transacted }}</td>
+                    <td class="table-secondary text-start">{{ i.symbol }}</td>
+                    <td class="table-secondary text-end">{{ i.shares }}</td>
+                    <td class="table-secondary text-end">{{ i.price | usd }}</td>
+                    <td class="table-secondary text-end">{{ (i.shares * i.price) | usd }}</td>
+                </tr>
+                {% endif %}
+
+            {% endfor %}
+
+
+        </table>
+    </div>
+    {% else %}
+        <h5>History</h5>
+    {% endif %}
+
+{% endblock %}

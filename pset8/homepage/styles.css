@@ -1,0 +1,51 @@
+.align--1 {
+    text-align: left;
+}
+
+.align-0 {
+    text-align: center;
+}
+
+.align-1 {
+    text-align: right;
+}
+
+.button {
+  background-color: #6495ED; 
+  border: 2px solid white;
+  color: white;
+  padding: 8px 26px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.2s;
+  cursor: "pointer";
+  border-radius: 6px;
+}
+
+.button1:hover{
+    background-color: white;
+    /*background-color: hsla(0, 100%, 30%, 0.3);*/
+    border: 2px solid #6495ED;
+}
+
+.black{
+    background-color: rgba(0,0,0,0.9);
+    color: white;S
+    
+}
+
+.blue{
+    background-color: blue;
+    margin: 20px 2px;
+}
+
+.right {
+    float: right;
+}
+
+.white{
+    color: white;
+}

@@ -1,25 +1,18 @@
 <!DOCTYPE html>
-
 <html lang="en">
     <head>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-        
-        <link href="styles.css" rel="stylesheet">
-        <title>My Webpage</title>
+        <title>GET</title>
     </head>
     <body>
+        <a href="/index.html">Index</a>
         
-        <p style='text-align: center' >hello, homepage- page 3</p>
-        <button id='btn1' onclick="window.location.href='/index.html';">Page 1</button>
-        <button id='btn2' onclick="window.location.href='/page2.html';">Page 2</button>
-        <button id='btn3' onclick="window.location.href='/page3.html';">Page 3</button>
-        <button id='btn4' onclick="window.location.href='/page4.html';">Page 4</button>
+        <div style="padding:100px">
+            <h3>Search on Googgle using <i>GET</i></h3>
+            <form style="padding-top:10px" action="http://google.com/search" method="get">
+                <input autocomplete="off" autofocus name="q" id="xx" placeholder="Query" type="text">
+                <input type="submit" value="Search on Google">   
+            </form>
+        </div>
         
-        <a href='/index.html'> Page 1</a>
-        <a href='/page2.html'> Page 2</a>
-        <a href='/page3.html'> Page 3</a>
-        <a href='/page4.html'> Page 4</a>
     </body>
 </html>
