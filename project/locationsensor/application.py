@@ -1,7 +1,7 @@
 import os
 
 from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
@@ -10,6 +10,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, login_required, lookup, usd
 
 from datetime import datetime
+import json
 
 # Configure application
 app = Flask(__name__)
@@ -356,3 +357,32 @@ def errorhandler(e):
 # Listen for errors
 for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
+
+
+@app.route("/test", methods=["GET", "POST"])
+def test():
+    """Get stock quote."""
+    if request.method == "POST":
+        text = request.form.get("text")
+        if not text:
+            return apology("text required")
+
+        try:
+            text_json = json.loads(text)
+
+
+        except:
+            return render_template("tested.html", text = text)
+
+        print(text.isnumeric())
+        print("****************************")
+
+        if text.isnumeric():
+            print("is numeric")
+            return render_template("tested.html", text = text)
+
+        return render_template("tested.html")
+        #return render_template("tested.html", text = text, id = text_json, id2 = text_json["change"])
+
+    else:
+        return render_template("test.html")

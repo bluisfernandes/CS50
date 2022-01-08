@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Test
+{% endblock %}
+
+{% block main %}
+
+    <form action="/test" method= "post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" placeholder="Text (json)" name="text" type="text">
+            <input autocomplete="off" class="form-control" placeholder="none" name="none" min="1" type="number">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-danger" type="submit">Send</button>
+        </div>
+    </form>
+
+    https://cloud.iexapis.com/stable/stock/PBR/quote?token=pk_cc8821de4e8d4731ad5c8fdb105c0ee6
+
+{% endblock %}
