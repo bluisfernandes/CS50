@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Test
+{% endblock %}
+
+{% block main %}
+
+<p>text:</p>
+<p>{{ text }}</p>
+
+
+{% if id is defined %}}
+    <br>
+    <p>JSON:<br> {{ id }}</p>
+
+    <br>
+    <p>Company Name: {{ id.companyName }}</p>
+    <p>latestPrice: {{ id.latestPrice }}</p>
+    <p>symbol: {{ id.symbol }}</p>
+
+{% endif %}
+
+
+
+{% endblock %}
